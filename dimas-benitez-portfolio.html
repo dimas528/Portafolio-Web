@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dimas Benitez — Backend &amp; Full Stack Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1220;
+    --bg-soft: #101B2D;
+    --surface: #131F35;
+    --border: rgba(248,250,252,0.09);
+    --border-strong: rgba(248,250,252,0.16);
+    --blue: #2563EB;
+    --blue-soft: rgba(37,99,235,0.14);
+    --green: #10B981;
+    --green-soft: rgba(16,185,129,0.14);
+    --ivory: #F8FAFC;
+    --gray: #64748B;
+    --gray-light: #94A3B8;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ivory);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--green-soft); color:var(--ivory);}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,18,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .logo-mark{display:flex; align-items:center; gap:10px; text-decoration:none;}
+  .logo-mark svg{display:block;}
+  .logo-mark span{font-family:var(--display); font-weight:600; font-size:15px; letter-spacing:0.02em; color:var(--ivory);}
+  .nav-links{display:flex; gap:32px; list-style:none; margin:0; padding:0;}
+  .nav-links a{
+    font-size:13.5px; color:var(--gray-light); text-decoration:none;
+    letter-spacing:0.01em; transition:color .2s ease;
+  }
+  .nav-links a:hover{color:var(--green);}
+
+  /* HERO */
+  header.hero{padding:96px 0 64px; position:relative;}
+  .eyebrow-row{display:flex; gap:8px; margin-bottom:28px; flex-wrap:wrap;}
+  .eyebrow{
+    font-family:var(--body); font-size:12px; font-weight:600;
+    letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--green); background:var(--green-soft);
+    border:1px solid rgba(16,185,129,0.3);
+    padding:5px 12px; border-radius:100px;
+  }
+  h1.name{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(40px,6vw,64px); line-height:1.03;
+    margin:0 0 14px; letter-spacing:-0.01em;
+  }
+  p.role{
+    font-family:var(--display); font-weight:500;
+    font-size:clamp(17px,2.2vw,21px); color:var(--gray-light);
+    margin:0 0 22px;
+  }
+  p.role .sep{color:var(--gray); margin:0 8px; font-weight:400;}
+  p.essence{
+    max-width:620px; font-size:16.5px; color:#C7D0DD;
+    margin:0 0 36px;
+  }
+  .hero-cta{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--body); font-weight:600; font-size:14px;
+    padding:12px 22px; border-radius:8px; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn-primary{background:var(--blue); color:var(--ivory); border:1px solid var(--blue);}
+  .btn-primary:hover{transform:translateY(-1px); background:#1d4fd1;}
+  .btn-ghost{border:1px solid var(--border-strong); color:var(--ivory);}
+  .btn-ghost:hover{border-color:var(--green); color:var(--green); transform:translateY(-1px);}
+
+  /* FLOW DIAGRAM — signature element */
+  .flow-section{padding:20px 0 88px;}
+  .flow-label{
+    font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--gray); margin-bottom:18px; font-weight:600;
+  }
+  .flow-svg-wrap{
+    border:1px solid var(--border); border-radius:14px;
+    background:linear-gradient(180deg, var(--surface), var(--bg-soft));
+    padding:28px 20px 22px; overflow-x:auto;
+  }
+  .flow-svg-wrap svg{display:block; min-width:900px; width:100%; height:auto;}
+  .flow-node-label{font-family:'Inter',sans-serif; font-size:12.5px; fill:var(--gray-light); font-weight:500;}
+  .flow-node-circle{fill:var(--surface); stroke:var(--border-strong); stroke-width:1.5; transition:stroke .3s ease;}
+  .flow-node.active .flow-node-circle{stroke:var(--green); stroke-width:2;}
+  .flow-node.active .flow-node-label{fill:var(--green);}
+  .flow-path{fill:none; stroke:var(--border-strong); stroke-width:1.5;}
+  .flow-dot{fill:var(--green); filter:drop-shadow(0 0 6px rgba(16,185,129,0.7));}
+  .flow-caption{font-size:13px; color:var(--gray); margin-top:14px; max-width:560px;}
+
+  /* SECTIONS */
+  section{padding:88px 0; border-top:1px solid var(--border);}
+  .section-head{margin-bottom:44px; max-width:600px;}
+  .section-num{
+    font-family:var(--display); font-size:13px; color:var(--gray);
+    letter-spacing:0.1em; margin-bottom:10px; display:block;
+  }
+  h2{
+    font-family:var(--display); font-weight:600;
+    font-size:clamp(26px,3.4vw,34px); margin:0 0 14px; letter-spacing:-0.01em;
+  }
+  .section-head p{color:var(--gray-light); font-size:15.5px; margin:0;}
+
+  /* ABOUT */
+  .about-body{max-width:680px; font-size:16.5px; color:#D6DCE6;}
+  .about-body p{margin:0 0 18px;}
+  .brand-words{display:flex; gap:10px; margin-top:28px; flex-wrap:wrap;}
+  .brand-word{
+    font-family:var(--display); font-size:13.5px; font-weight:600;
+    border:1px solid var(--border-strong); padding:8px 16px; border-radius:100px;
+    color:var(--ivory); background:var(--surface);
+  }
+
+  /* PILLARS */
+  .pillars{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden;}
+  .pillar{background:var(--bg-soft); padding:30px 26px;}
+  .pillar-icon{
+    width:36px; height:36px; border-radius:9px;
+    background:var(--blue-soft); border:1px solid rgba(37,99,235,0.3);
+    display:flex; align-items:center; justify-content:center; margin-bottom:20px;
+  }
+  .pillar:nth-child(2) .pillar-icon{background:var(--green-soft); border-color:rgba(16,185,129,0.3);}
+  .pillar h3{font-family:var(--display); font-size:17px; font-weight:600; margin:0 0 10px;}
+  .pillar p{font-size:14.5px; color:var(--gray-light); margin:0 0 16px;}
+  .pillar-q{
+    font-size:13px; color:var(--green); font-style:italic;
+    border-top:1px solid var(--border); padding-top:14px; margin:0;
+  }
+  @media (max-width:760px){.pillars{grid-template-columns:1fr;}}
+
+  /* PROJECTS */
+  .projects{display:flex; flex-direction:column; gap:16px;}
+  .project-card{
+    border:1px solid var(--border); border-radius:14px; padding:28px 30px;
+    background:var(--surface); display:flex; justify-content:space-between; gap:24px;
+    flex-wrap:wrap; transition:border-color .2s ease;
+  }
+  .project-card:hover{border-color:var(--border-strong);}
+  .project-main{flex:1; min-width:260px;}
+  .project-tag{
+    font-size:11.5px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--blue); font-weight:600; margin-bottom:10px; display:block;
+  }
+  .project-card h3{font-family:var(--display); font-size:19px; margin:0 0 8px; font-weight:600;}
+  .project-card p{font-size:14.5px; color:var(--gray-light); margin:0 0 14px; max-width:520px;}
+  .stack-row{display:flex; gap:8px; flex-wrap:wrap;}
+  .stack-chip{
+    font-size:12px; color:var(--gray-light); border:1px solid var(--border-strong);
+    padding:4px 10px; border-radius:100px;
+  }
+  .project-link{
+    align-self:center; font-size:13.5px; font-weight:600; color:var(--green);
+    text-decoration:none; white-space:nowrap; display:flex; align-items:center; gap:6px;
+  }
+  .project-link:hover{text-decoration:underline;}
+  .placeholder-note{
+    font-size:12.5px; color:var(--gray); margin-top:22px;
+    border-left:2px solid var(--border-strong); padding-left:14px;
+  }
+
+  /* CONTACT */
+  .contact-grid{display:flex; gap:16px; flex-wrap:wrap;}
+  .contact-card{
+    flex:1; min-width:200px; border:1px solid var(--border); border-radius:14px;
+    padding:24px; background:var(--surface); text-decoration:none;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .contact-card:hover{border-color:var(--green); transform:translateY(-2px);}
+  .contact-card .label{font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray); margin-bottom:8px; display:block;}
+  .contact-card .value{font-family:var(--display); font-size:16px; font-weight:600; color:var(--ivory);}
+
+  footer{padding:36px 0; border-top:1px solid var(--border);}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  footer p{font-size:12.5px; color:var(--gray); margin:0;}
+
+  @media (max-width:640px){
+    nav .nav-links{display:none;}
+    header.hero{padding:64px 0 48px;}
+    section{padding:64px 0;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo-mark" href="#top">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+        <rect x="0.75" y="0.75" width="28.5" height="28.5" rx="7" stroke="#2563EB" stroke-width="1.5"/>
+        <path d="M8 8h5.4c3.2 0 5.6 2.1 5.6 6.5 0 4.4-2.4 7.5-5.8 7.5H8V8z" stroke="#F8FAFC" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+        <path d="M8 14.6h5" stroke="#10B981" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="21.5" cy="8.6" r="1.6" fill="#10B981"/>
+      </svg>
+      <span>DB</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#enfoque">Enfoque</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow-row">
+      <span class="eyebrow">Analítico</span>
+      <span class="eyebrow">Confiable</span>
+      <span class="eyebrow">Aprendiz</span>
+    </div>
+    <h1 class="name">Dimas Benitez</h1>
+    <p class="role">Backend &amp; Full Stack Development<span class="sep">·</span>Python · JavaScript · APIs · React</p>
+    <p class="essence">Construyo aplicaciones completas, desde la interfaz hasta el backend y la base de datos, entendiendo cómo se conecta cada pieza del sistema — con una mentalidad de aprendizaje continuo y responsabilidad técnica.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#proyectos">Ver proyectos</a>
+      <a class="btn btn-ghost" href="#contacto">Contactar</a>
+    </div>
+  </div>
+</header>
+
+<section class="flow-section">
+  <div class="wrap">
+    <span class="flow-label">Cómo pienso un sistema</span>
+    <div class="flow-svg-wrap">
+      <svg viewBox="0 0 1000 140" xmlns="http://www.w3.org/2000/svg" id="flow-svg">
+        <path class="flow-path" d="M40,70 H960" />
+        <!-- nodes will be positioned via JS-free fixed coords -->
+        <g class="flow-node" data-i="0"><circle class="flow-node-circle" cx="40" cy="70" r="15"/><text class="flow-node-label" x="40" y="104" text-anchor="middle">Frontend</text></g>
+        <g class="flow-node" data-i="1"><circle class="flow-node-circle" cx="270" cy="70" r="15"/><text class="flow-node-label" x="270" y="104" text-anchor="middle">API</text></g>
+        <g class="flow-node" data-i="2"><circle class="flow-node-circle" cx="500" cy="70" r="15"/><text class="flow-node-label" x="500" y="104" text-anchor="middle">Backend</text></g>
+        <g class="flow-node" data-i="3"><circle class="flow-node-circle" cx="730" cy="70" r="15"/><text class="flow-node-label" x="730" y="104" text-anchor="middle">Modelo</text></g>
+        <g class="flow-node" data-i="4"><circle class="flow-node-circle" cx="960" cy="70" r="15"/><text class="flow-node-label" x="960" y="104" text-anchor="middle">Base de datos</text></g>
+        <circle class="flow-dot" r="5" cy="70">
+          <animate attributeName="cx" values="40;270;500;730;960;960" dur="7s" keyTimes="0;0.2;0.4;0.6;0.8;1" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+    <p class="flow-caption">Desde la interfaz que ve el usuario hasta la base de datos que la sostiene — así conecto cada pieza de un sistema completo.</p>
+  </div>
+</section>
+
+<section id="sobre-mi">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">Sobre mí</span>
+      <h2>Constructor, con curiosidad de explorador</h2>
+    </div>
+    <div class="about-body">
+      <p>Soy Dimas Benitez, desarrollador orientado a Backend y Full Stack Development, con especial interés en construir aplicaciones completas, desde la interfaz hasta el servidor y la base de datos.</p>
+      <p>Completé el bootcamp Full Stack Junior de Kodigo, donde reforcé mi enfoque en construir sistemas de punta a punta: cómo se conecta el frontend con la API, cómo esa API habla con el backend, y cómo el backend persiste la información correctamente.</p>
+      <p>Me interesa comprender cómo se relacionan las distintas partes de un sistema, en lugar de limitarme a hacer que el código funcione. Estoy en constante aprendizaje y busco oportunidades donde pueda aportar, asumir responsabilidad técnica y seguir desarrollándome profesionalmente.</p>
+    </div>
+    <div class="brand-words">
+      <span class="brand-word">🔎 Analítico</span>
+      <span class="brand-word">🤝 Confiable</span>
+      <span class="brand-word">📚 Aprendiz</span>
+    </div>
+  </div>
+</section>
+
+<section id="enfoque">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">Enfoque</span>
+      <h2>Dos pilares, un mismo recorrido</h2>
+      <p>Backend → Full Stack Development. No disperso — enfocado.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9h14M9 2v14" stroke="#2563EB" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Backend y APIs</h3>
+        <p>Lógica de negocio, persistencia, arquitectura e integración aplicación → API → base de datos.</p>
+        <p class="pillar-q">¿Cómo construyo sistemas que manejen correctamente la información?</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6 5 2 9l4 4M12 5l4 4-4 4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Desarrollo Web / Full Stack</h3>
+        <p>Interfaces, JavaScript, integración frontend-backend — reforzado en el bootcamp Full Stack Junior de Kodigo.</p>
+        <p class="pillar-q">¿Cómo construyo una experiencia completa, de punta a punta?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">Proyectos</span>
+      <h2>Lo que he construido</h2>
+      <p>Un proyecto insignia por pilar, con arquitectura y decisiones técnicas explicadas.</p>
+    </div>
+    <div class="projects">
+      <div class="project-card">
+        <div class="project-main">
+          <span class="project-tag">Backend / API</span>
+          <h3>[Nombre del proyecto — API + PostgreSQL]</h3>
+          <p>[Describe el problema que resuelve, cómo se conecta aplicación → API → base de datos, y una decisión técnica clave que tomaste.]</p>
+          <div class="stack-row">
+            <span class="stack-chip">Python</span>
+            <span class="stack-chip">PostgreSQL</span>
+            <span class="stack-chip">REST API</span>
+          </div>
+        </div>
+        <a class="project-link" href="#" target="_blank" rel="noopener">Ver en GitHub →</a>
+      </div>
+      <div class="project-card">
+        <div class="project-main">
+          <span class="project-tag">Full Stack</span>
+          <h3>[Nombre del proyecto — Aplicación Full Stack]</h3>
+          <p>[Describe la aplicación: qué problema resuelve, cómo se conecta el frontend con la API y el backend, y una decisión técnica clave que tomaste. Proyecto del bootcamp de Kodigo o propio.]</p>
+          <div class="stack-row">
+            <span class="stack-chip">JavaScript</span>
+            <span class="stack-chip">React</span>
+            <span class="stack-chip">Node.js</span>
+          </div>
+        </div>
+        <a class="project-link" href="#" target="_blank" rel="noopener">Ver en GitHub →</a>
+      </div>
+    </div>
+    <p class="placeholder-note">Estos dos proyectos están marcados como plantilla — reemplaza el título, la descripción, el stack y el enlace de GitHub con tus proyectos reales antes de publicar.</p>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">Contacto</span>
+      <h2>Hablemos</h2>
+      <p>Abierto a oportunidades de Backend y Full Stack Development.</p>
+    </div>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:tu-email@ejemplo.com">
+        <span class="label">Email</span>
+        <span class="value">tu-email@ejemplo.com</span>
+      </a>
+      <a class="contact-card" href="https://linkedin.com/in/tu-usuario" target="_blank" rel="noopener">
+        <span class="label">LinkedIn</span>
+        <span class="value">/in/tu-usuario</span>
+      </a>
+      <a class="contact-card" href="https://github.com/tu-usuario" target="_blank" rel="noopener">
+        <span class="label">GitHub</span>
+        <span class="value">@tu-usuario</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Dimas Benitez — Backend &amp; Full Stack Development</p>
+    <p>Frontend → API → Backend → Modelo → Base de datos</p>
+  </div>
+</footer>
+
+<script>
+  // Activa cada nodo del flujo cuando el punto verde lo cruza
+  const nodes = document.querySelectorAll('.flow-node');
+  const dot = document.querySelector('.flow-dot');
+  const xs = [40,270,500,730,960];
+  function tick(){
+    const bbox = dot.getBBox();
+    const cx = bbox.x + bbox.width/2;
+    let closest = 0, min = Infinity;
+    xs.forEach((x,i)=>{ const d = Math.abs(x-cx); if(d<min){min=d; closest=i;} });
+    nodes.forEach((n,i)=> n.classList.toggle('active', i<=closest && min<25));
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+</script>
+
+</body>
+</html>
